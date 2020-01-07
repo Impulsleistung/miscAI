@@ -408,3 +408,177 @@ plt.show()
 
 ############################################
 
+# Print the minimum value of the Engineering column
+print(df.Engineering.min())
+
+# Print the maximum value of the Engineering column
+print(df.Engineering.max())
+
+# Construct the mean percentage per year: mean
+mean = df.mean(axis='columns')
+
+# Plot the average percentage per year
+mean.plot()
+
+############################################
+
+# Quantile and Boxplot over timeseries
+# Print the number of countries reported in 2015
+print(df['2015'].count() )
+
+# Print the 5th and 95th percentiles
+print(df.quantile([0.05, 0.95]) )
+
+# Generate a box plot
+years = ['1800','1850','1900','1950','2000']
+df[years].plot(kind='box')
+plt.show()
+
+############################################
+
+# Extracting groups and compare the difference to global set
+# Compute the global mean and global standard deviation: global_mean, global_std
+global_mean = df.mean()
+global_std = df.std()
+
+# Filter the US population from the origin column: us
+us = df[df.origin == 'US' ]
+
+# Compute the US mean and US standard deviation: us_mean, us_std
+us_mean = us.mean()
+us_std = us.std()
+
+# Print the differences
+print(us_mean - global_mean)
+print(us_std - global_std)
+
+############################################
+
+# Using boolean operation to conduct multiple boxplots
+titanic.iloc[:4,:4]
+# Out[1]: 
+   # pclass  survived                                  name     sex
+# 0       1         1         Allen, Miss. Elisabeth Walton  female
+# 1       1         1        Allison, Master. Hudson Trevor    male
+# 2       1         0          Allison, Miss. Helen Loraine  female
+# 3       1         0  Allison, Mr. Hudson Joshua Creighton    male
+
+# Display the box plots on 3 separate rows and 1 column
+fig, axes = plt.subplots(nrows=3, ncols=1)
+
+# Generate a box plot of the fare prices for the First passenger class
+titanic.loc[titanic['pclass'] == 1].plot(ax=axes[0], y='fare', kind='box')
+
+# Generate a box plot of the fare prices for the Second passenger class
+titanic.loc[titanic['pclass'] == 2].plot(ax=axes[1], y='fare', kind='box')
+
+# Generate a box plot of the fare prices for the Third passenger class
+titanic.loc[titanic['pclass'] == 3].plot(ax=axes[2], y='fare', kind='box')
+
+# Display the plot
+plt.show()
+
+############################################
+
+# Correct importing and parsing of Date/Time info with autoindexing
+df3 = pd.read_csv(filename, index_col='Date', parse_dates=True)
+
+############################################
+
+# Convert the output time format
+# Prepare a format string: time_format
+time_format = '%Y-%m-%d %H:%M'
+
+# Convert date_list into a datetime object: my_datetimes
+my_datetimes = pd.to_datetime(date_list, format=time_format)  
+
+# Construct a pandas Series using temperature_list and my_datetimes: time_series
+time_series = pd.Series(temperature_list, index=my_datetimes)
+
+############################################
+
+# Extract the hour from 9pm to 10pm on '2010-10-11': ts1
+ts1 = ts0.loc['2010-10-11 21:00:00':'2010-10-11 22:00:00']
+
+# Extract '2010-07-04' from ts0: ts2
+ts2 = ts0.loc['2010-07-04']
+
+# Extract data from '2010-12-15' to '2010-12-31': ts3
+ts3 = ts0.loc['2010-12-15':'2010-12-31']
+
+############################################
+
+# dir() will give you the list of in scope variables:
+# globals() will give you a dictionary of global variables
+# locals() will give you a dictionary of local variables
+# %who will give you the iPython local variables
+
+############################################
+
+# Downsampling
+# Downsample to 6 hour data and aggregate by mean: df1
+df1 = df.Temperature.resample('6h').mean()
+
+# Downsample to daily data and count the number of data points: df2
+df2 = df.Temperature.resample('D').count()
+
+############################################
+
+# Resampling Method in Downsampling
+# Extract temperature data for August: august
+august = df.loc['2010-August','Temperature']
+
+# Downsample to obtain only the daily highest temperatures in August: august_highs
+august_highs = august.resample('1D').max()
+
+# Extract temperature data for February: february
+february = df.loc['2010-02','Temperature']
+
+# Downsample to obtain the daily lowest temperatures in February: february_lows
+february_lows = february.resample('1D').min()
+
+############################################
+
+# Resampling, Window-Function, mean, moving average
+# Extract data from 2010-Aug-01 to 2010-Aug-15: unsmoothed
+unsmoothed = df['Temperature']['2010-08-01':'2010-08-15']  # Data indexing, slecting like this is convenient
+
+# Apply a rolling mean with a 24 hour window: smoothed
+smoothed = unsmoothed.rolling(24).mean()
+
+# Create a new DataFrame with columns smoothed and unsmoothed: august
+august = pd.DataFrame({'smoothed':smoothed, 'unsmoothed':unsmoothed})
+
+# Plot both smoothed and unsmoothed data using august.plot().
+august.plot()
+plt.show()
+
+############################################
+
+# Moving average on resampled data
+# Extract the August 2010 data: august
+august = df['Temperature']['2010-08']
+
+# Resample to daily data, aggregating by max: daily_highs
+daily_highs = august.resample('1D').max()
+
+# Use a rolling 7-day window with method chaining to smooth the daily high temperatures in August
+daily_highs_smoothed = daily_highs.rolling(7).mean()
+print(daily_highs_smoothed)
+
+############################################
+
+# Strip extra whitespace from the column names: df.columns
+df.columns = df.columns.str.strip()
+
+# Extract data for which the destination airport is Dallas: dallas
+dallas = df['Destination Airport'].str.contains('DAL')
+
+# Compute the total number of Dallas departures each day: daily_departures
+daily_departures = dallas.resample('1D').sum()
+
+# Generate the summary statistics for daily Dallas departures: stats
+stats = daily_departures.describe()
+
+############################################
+
