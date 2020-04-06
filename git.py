@@ -239,6 +239,35 @@ git init # A plain call will establish one in the PWD
 # clone a repository
 git clone /existing/project newprojectname
 
-# get the adress of the original repo which was cloned
+# get the adress of the ORIGIN repo which was cloned
 git remote -v
 
+# get the lastest changes from a remote repository
+# pull and push have opposite functions
+git pull <remote_repo> <remote_repo_branch>
+# all local changes should be committed first or checkout in order to drop from the stage
+
+# whole process from changing a file to remote push
+# first, bring it into the staging area
+git add ./data/northern.csv
+
+# second, commit it to repository
+git commit -m "Added more northern data."
+	[master 9b31778] Added more northern data.
+	 1 file changed, 1 insertion(+)
+
+# third, push it to the remote repo
+git push origin master
+	Counting objects: 4, done.
+	Delta compression using up to 4 threads.
+	Compressing objects: 100% (4/4), done.
+	Writing objects: 100% (4/4), 371 bytes | 0 bytes/s, done.
+	Total 4 (delta 3), reused 0 (delta 0)
+	To /home/thunk/repo
+	   ade2d68..9b31778  master -> master
+	   
+
+# prevent destruction of remote work by 
+# 1. commit to local repo
+# 2. pull remote repo
+# 3. push to remote repo
