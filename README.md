@@ -8,6 +8,11 @@ Let's show off some markdown-art:
 - [x] [PlantUML](https://github.com/mikitex70/plantuml-markdown)
 ![alternative text](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/Impulsleistung/miscAI/master/.plantUML/test.txt)
 
+Testing native mathjax:
+1 $$ x = {-b \pm \sqrt{b^2-4ac} \over 2a}  $$
+2 [tex] x = {-b \pm \sqrt{b^2-4ac} \over 2a} [/tex]
+3  <tex> x = {-b \pm \sqrt{b^2-4ac} \over 2a} </tex> 
+4  \( x = {-b \pm \sqrt{b^2-4ac} \over 2a}  \)
 
 
 
