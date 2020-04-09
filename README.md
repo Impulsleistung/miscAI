@@ -4,16 +4,8 @@ My thanks go to:
 - [Github Markdown](https://guides.github.com/pdfs/markdown-cheatsheet-online.pdf)
 - [PlantUML](https://github.com/mikitex70/plantuml-markdown)
 
-::uml:: format="png" classes="uml myDiagram" alt="My super diagram placeholder" title="My super diagram" width="300px" height="300px"
-	Goofy ->  MickeyMouse: callsss
-	Goofy <-- MickeyMouse: respondsss
-::end-uml::
+![alternative text](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/Impulsleistung/miscAI/master/.plantUML/test.txt)
 
-```plantuml format="png" classes="uml myDiagram" alt="My super diagram placeholder" title="My super diagram" width="300px" height="300px"
-	Goofy ->  MickeyMouse: calls
-	Goofy <-- MickeyMouse: responds
-```
-![alternative text](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.github.com/plantuml/plantuml-server/master/src/main/webapp/resource/test2diagrams.txt)
 
 
 ### Some important stuff
