@@ -1,3 +1,6 @@
 @startuml
+skinparam shadowing false
+skinparam monochrome true
+
 DataAccess - [Hello Component] 
 @enduml
