@@ -792,3 +792,84 @@ def draw_bs_pairs_linreg(x, y, size=1):
         bs_slope_reps[i], bs_intercept_reps[i] = np.polyfit(bs_x,bs_y,1)
 
     return bs_slope_reps, bs_intercept_reps
+
+#################################################
+
+# Generate array of x-values for bootstrap lines: x
+x = np.array([0,100])
+
+# Plot the bootstrap lines
+# This actually works because a line consists of two points x=0 and x=100
+for i in range(100):
+    _ = plt.plot(x, bs_slope_reps[i]*x + bs_intercept_reps[i],linewidth=0.5, alpha=0.2, color='red')
+
+# Plot the data
+_ = plt.plot(illiteracy, fertility, marker='.',linestyle='none' )
+
+# Label axes, set the margins, and show the plot
+_ = plt.xlabel('illiteracy')
+_ = plt.ylabel('fertility')
+plt.margins(0.02)
+plt.show()
+
+#################################################
+
+Bootstrap Test v.s. Permutationstest
+Permutationstest:
+	H0: immer Gleichheit zweier Verteilungen
+	bedingter Test
+	exakt, wenn Austauschbarkeit besteht
+Boostrap Test:
+	H0: allgemeiner (Mittelwert, Median)
+	kein bedingter Test
+	nicht exakt
+
+#################################################
+
+# Permutationstest Sampling of two datasets
+def permutation_sample(data1, data2):
+    """Generate a permutation sample from two data sets."""
+
+    # Concatenate the data sets: data
+    data = np.concatenate((data1, data2))
+
+    # Permute the concatenated array: permuted_data
+    permuted_data = np.random.permutation(data)
+
+    # Split the permuted array into two: perm_sample_1, perm_sample_2
+    perm_sample_1 = permuted_data[:len(data1)]
+    perm_sample_2 = permuted_data[len(data1):]
+
+    return perm_sample_1, perm_sample_2
+	
+#################################################
+
+# Test of identical distribution
+for _ in range(50):
+    # Generate permutation samples
+    perm_sample_1, perm_sample_2 = permutation_sample(rain_june, rain_november)
+
+    # Compute ECDFs
+    x_1, y_1 = ecdf(perm_sample_1)
+    x_2, y_2 = ecdf(perm_sample_2)
+
+    # Plot ECDFs of permutation sample
+    _ = plt.plot(x_1,y_1, marker='.', linestyle='none',
+                 color='red', alpha=0.02)
+    _ = plt.plot(x_2, y_2, marker='.', linestyle='none',
+                 color='blue', alpha=0.02)
+
+# Create and plot ECDFs from original data
+x_1, y_1 = ecdf(rain_june)
+x_2, y_2 = ecdf(rain_november)
+_ = plt.plot(x_1, y_1, marker='.', linestyle='none', color='red')
+_ = plt.plot(x_2, y_2, marker='.', linestyle='none', color='blue')
+
+# Label axes, set margin, and show plot
+plt.margins(0.02)
+_ = plt.xlabel('monthly rainfall (mm)')
+_ = plt.ylabel('ECDF')
+plt.show()
+
+#################################################
+
