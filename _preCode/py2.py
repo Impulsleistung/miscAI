@@ -928,3 +928,26 @@ print('p-value =', p)
 
 #################################################
 
+# Mean value adjustment by resetting
+newcomb_value = 299860 # km/s
+michelson_shifted = michelson_speed_of_light - np.mean(michelson_speed_of_light) + newcomb_value
+
+#################################################
+
+# Make an array of translated impact forces: translated_force_b
+translated_force_b = force_b - np.mean(force_b) + 0.55
+
+# Take bootstrap replicates of Frog B's translated impact forces: bs_replicates
+bs_replicates = draw_bs_reps(translated_force_b, np.mean, 10000)
+
+# Compute fraction of replicates that are less than the observed Frog B force: p
+p = np.sum(bs_replicates <= np.mean(force_b)) / 10000
+
+# Print the p-value
+print('p = ', p)
+
+#################################################
+
+# the two-sample bootstrap test, we shift both arrays to have the same mean, since we are simulating the hypothesis that their means are, in fact, equal. We then draw bootstrap samples out of the shifted arrays and compute the difference in means. This constitutes a bootstrap replicate, and we generate many of them. The p-value is the fraction of replicates with a difference in means greater than or equal to what was observed
+ 
+
