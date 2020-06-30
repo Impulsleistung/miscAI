@@ -950,4 +950,23 @@ print('p = ', p)
 
 # the two-sample bootstrap test, we shift both arrays to have the same mean, since we are simulating the hypothesis that their means are, in fact, equal. We then draw bootstrap samples out of the shifted arrays and compute the difference in means. This constitutes a bootstrap replicate, and we generate many of them. The p-value is the fraction of replicates with a difference in means greater than or equal to what was observed
  
+# Compute mean of all forces: mean_force
+mean_force = np.mean(forces_concat)
+
+# Generate shifted arrays, rectify and align
+force_a_shifted = force_a - np.mean(force_a) + mean_force
+force_b_shifted = force_b - np.mean(force_b) + mean_force
+
+# Compute 10,000 bootstrap replicates from shifted arrays
+bs_replicates_a = draw_bs_reps(force_a_shifted, np.mean, size=10000)
+bs_replicates_b = draw_bs_reps(force_b_shifted, np.mean, size=10000)
+
+# Get replicates of difference of means: bs_replicates
+bs_replicates = bs_replicates_a - bs_replicates_b
+
+# Compute and print p-value: p
+p = np.sum(bs_replicates >= empirical_diff_means) / len(bs_replicates)
+print('p-value =', p)
+
+#################################################
 
